@@ -8,3 +8,4 @@ FROM gcr.io/google_containers/etcd-amd64
 FROM gcr.io/google_containers/kube-dnsmasq-amd64
 FROM gcr.io/google_containers/exechealthz-amd64
 FROM gcr.io/google_containers/pause-amd64
+RUN echo aa
