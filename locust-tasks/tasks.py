@@ -20,23 +20,35 @@ import uuid
 from datetime import datetime
 from locust import HttpLocust, TaskSet, task
 
-
-class MetricsTaskSet(TaskSet):
-    _deviceid = None
-
-    def on_start(self):
-        self._deviceid = str(uuid.uuid4())
+class UserBehavior(TaskSet):
 
     @task(1)
-    def login(self):
-        self.client.post(
-            '/login', {"deviceid": self._deviceid})
+    def baidu(self):
+        self.client.get("/conf")
+        
+    @task(1)
+    def enterprise(self):
+        self.client.get("/zhiweicloud/enterprise-park/parkProjectService/bestProject")
+        
+    @task(1)
+    def spider(self):
+        self.client.get("/wanderer/spider_rule_service/get_datasource_list$")
+        
+    @task(1)
+    def investment(self):
+        self.client.get("/zhiweicloud/investment/investmentService/institutionList$")
+        
+    @task(1)
+    def deal(self):
+        self.client.get("/zhiweicloud/deal/accountPaymentService/accountPay")
+        
+    @task(1)
+    def baidu(self):
+        self.client.get("/zhiweicloud/search/yuanQuService/getYuanQuTags$")
 
-    @task(999)
-    def post_metrics(self):
-        self.client.post(
-            "/metrics", {"deviceid": self._deviceid, "timestamp": datetime.now()})
 
 
-class MetricsLocust(HttpLocust):
-    task_set = MetricsTaskSet
+class WebsiteUser(HttpLocust):
+    task_set = UserBehavior
+    min_wait = 3000
+    max_wait = 6000
