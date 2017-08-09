@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # Copyright 2015 Google Inc. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,25 +15,28 @@
 # limitations under the License.
 
 
-# Start with a base Python 2.7.8 image
-FROM python:2.7.8
+import uuid
 
-MAINTAINER Sandeep Parikh <parikhs@google.com>
+from datetime import datetime
+from locust import HttpLocust, TaskSet, task
 
-# Add the licenses for third party software and libraries
-ADD licenses /licenses
 
-# Add the external tasks directory into /tasks
-ADD locust-tasks /locust-tasks
+class MetricsTaskSet(TaskSet):
+    _deviceid = None
 
-# Install the required dependencies via pip
-RUN pip install -r /locust-tasks/requirements.txt
+    def on_start(self):
+        self._deviceid = str(uuid.uuid4())
 
-# Expose the required Locust ports
-EXPOSE 5557 5558 8089
+    @task(1)
+    def login(self):
+        self.client.post(
+            '/login', {"deviceid": self._deviceid})
 
-# Set script to be executable
-RUN chmod 755 /locust-tasks/run.sh
+    @task(999)
+    def post_metrics(self):
+        self.client.post(
+            "/metrics", {"deviceid": self._deviceid, "timestamp": datetime.now()})
 
-# Start Locust using LOCUS_OPTS environment variable
-ENTRYPOINT ["/locust-tasks/run.sh"] 
+
+class MetricsLocust(HttpLocust):
+    task_set = MetricsTaskSet
