@@ -1,2 +1,2 @@
-FROM gcr.io/google_containers/redis:v1
+FROM gcr.io/google_containers/liveness
 MAINTAINER immortal <hadoopimmortal@163.com>
