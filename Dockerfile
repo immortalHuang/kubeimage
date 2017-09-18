@@ -1,3 +1,3 @@
-FROM gcr.io/google_containers/addon-resizer:1.0
+FROM gcr.io/google_samples/k8szk:v1
 
 MAINTAINER immortal <hadoopimmortal@163.com>
