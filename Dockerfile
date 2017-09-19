@@ -1,3 +1,3 @@
-FROM gcr.io/google_samples/k8szk:v1
+FROM gcr.io/istio-io/mixer:0.2.0
 
 MAINTAINER immortal <hadoopimmortal@163.com>
