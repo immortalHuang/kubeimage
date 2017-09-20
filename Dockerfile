@@ -1,3 +1,3 @@
-FROM gcr.io/istio-io/proxy_debug:0.2.0
+FROM gcr.io/google_containers/kube-controller-manager-amd64:v1.7.0
 
 MAINTAINER immortal <hadoopimmortal@163.com>
