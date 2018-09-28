@@ -6,7 +6,7 @@ WORKDIR /app
 RUN git clone https://github.com/getredash/redash.git
 RUN mv redash redash.bak
 RUN cp -r redash.bak/* ./
-COPY requirements.txt requirements_dev.txt requirements_all_ds.txt ./
+# COPY requirements.txt requirements_dev.txt requirements_all_ds.txt ./
 RUN pip install -r requirements.txt -r requirements_dev.txt -r requirements_all_ds.txt
 
 COPY . ./
